@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /opt/homebrew/bin/yarn add pygetwindow
+  /usr/local/bin/node /opt/homebrew/bin/yarn add pytesseract
 
 PATH: 
   /Users/lymengnaret/opt/anaconda3/bin:/Users/lymengnaret/opt/anaconda3/condabin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/pygetwindow: Not found
+  Error: https://registry.yarnpkg.com/pytesseract: Not found
       at Request.params.callback [as _callback] (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:66145:18)
       at Request.self.callback (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:140890:22)
       at Request.emit (node:events:513:28)
