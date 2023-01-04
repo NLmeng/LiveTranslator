@@ -8,6 +8,7 @@ import platform
 import cv2 as cv
 from PIL import ImageGrab, Image
 from ocr import extractTexts
+from UI  import mainWindow
 #
 #
 def main():
@@ -17,6 +18,7 @@ def main():
     # The __file__ variable is a built-in variable that holds the file path of the current script.
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     open("text_output.txt", "w").close()
+    window = mainWindow()
 
     if sys.platform == "darwin": # allow in Security & Privacy to enable
         #
@@ -24,7 +26,7 @@ def main():
             #
             screenshot = ImageGrab.grab(
                 # all_screens=True,
-                bbox=(500, 0, 700, 500), #(left_x, top_y, right_x, bottom_y)
+                # bbox=(500, 0, 700, 500), #(left_x, top_y, right_x, bottom_y)
                 )
             screenshot = np.array(screenshot)
             # BGR -> RGB
