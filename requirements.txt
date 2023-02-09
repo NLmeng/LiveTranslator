@@ -1,0 +1,11 @@
+### 
+
+## unversioned dependencies
+# tkinter # comes default with Python
+openai
+opencv-python
+numpy
+pytesseract
+deep_translator
+Pillow
+autopep8
