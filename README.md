@@ -10,4 +10,7 @@ One Way:
 
 # Branching Out
 `git pull`
+
+`git switch main`
+
 `git checkout -b <new_branch> main`
