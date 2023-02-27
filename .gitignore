@@ -3,3 +3,4 @@ dump.py
 **.log
 key.txt
 .env
+__pycache__

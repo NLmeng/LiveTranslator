@@ -1,18 +1,48 @@
+import numpy as np
+# import pygetwindow
+# title = pygetwindow.getAllTitles()
+# print(title)
+import sys
 import os
+import platform
+import cv2 as cv
+from PIL import ImageGrab, Image
+from src.ocr.extractTexts import extractTexts
+from ui.UI  import startGUI
+#
+#
+def main():
+    # The os.chdir changes the current working directory to the specified directory. 
+    # The os.path.dirname returns the directory component of a file path.
+    # the os.path.abspath returns the absolute file path of a file.
+    # The __file__ variable is a built-in variable that holds the file path of the current script.
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    open("text_output.txt", "w").close()
 
-import openai
-
-openai.api_key_path = "key.txt"
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-response = openai.Completion.create(
-  model="text-davinci-003",
-  prompt="A neutron star is the collapsed core of a massive supergiant star, which had a total mass of between 10 and 25 solar masses, possibly more if the star was especially metal-rich.[1] Neutron stars are the smallest and densest stellar objects, excluding black holes and hypothetical white holes, quark stars, and strange stars.[2] Neutron stars have a radius on the order of 10 kilometres (6.2 mi) and a mass of about 1.4 solar masses.[3] They result from the supernova explosion of a massive star, combined with gravitational collapse, that compresses the core past white dwarf star density to that of atomic nuclei.\n\nTl;dr",
-  temperature=0.7,
-  max_tokens=60,
-  top_p=1.0,
-  frequency_penalty=0.0,
-  presence_penalty=1
-)
-
-print(response)
+    if sys.platform == "darwin": # allow in Security & Privacy to enable
+        #
+        while(True):
+            #
+            screenshot = ImageGrab.grab(
+                # all_screens=True,
+                # bbox=(500, 0, 700, 500), #(left_x, top_y, right_x, bottom_y)
+                )
+            screenshot = np.array(screenshot)
+            # BGR -> RGB
+            screenshot = cv.cvtColor(screenshot, cv.COLOR_BGR2RGB)
+            #
+            extractTexts(screenshot)
+            #
+            cv.imshow("img", screenshot)
+            if cv.waitKey(1) == ord('q'):
+                cv.destroyAllWindows()
+                break
+    # TODO
+    elif sys.platform == "win32":
+        print()
+#
+#
+if __name__ == '__main__':
+    # main()
+    app = startGUI("main window")
+        
