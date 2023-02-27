@@ -7,7 +7,7 @@ import os
 import platform
 import cv2 as cv
 from PIL import ImageGrab, Image
-from ocr import extractTexts
+from ocr.ocr import extractTexts
 from UI  import mainWindow
 #
 #
