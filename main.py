@@ -23,10 +23,7 @@ def main():
         #
         while(True):
             #
-            screenshot = ImageGrab.grab(
-                # all_screens=True,
-                # bbox=(500, 0, 700, 500), #(left_x, top_y, right_x, bottom_y)
-                )
+            screenshot = ImageGrab.grab()
             screenshot = np.array(screenshot)
             # BGR -> RGB
             screenshot = cv.cvtColor(screenshot, cv.COLOR_BGR2RGB)
