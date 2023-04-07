@@ -26,6 +26,6 @@ def extractTexts(img):  # use pytesseract
         cropped = img[y:y + h, x:x + w]
         text = pytesseract.image_to_string(cropped)
 
-        file = open("text_output.txt", "a")
+        file = open("src/ocr/text_output.txt", "w")
         file.write(text + "\n")
         file.close

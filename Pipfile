@@ -11,6 +11,8 @@ pytesseract = "*"
 deep-translator = "*"
 pillow = "*"
 autopep8 = "*"
+pyperclip = "*"
+tiktoken = "*"
 
 [dev-packages]
 
