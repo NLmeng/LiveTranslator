@@ -13,6 +13,8 @@ pillow = "*"
 autopep8 = "*"
 pyperclip = "*"
 tiktoken = "*"
+Office365-REST-Python-Client = "*"
+adal = "*"
 
 [dev-packages]
 

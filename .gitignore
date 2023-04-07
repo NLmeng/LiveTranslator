@@ -1,6 +1,7 @@
 node_modules
-dump.py
 **.log
 key.txt
 .env
 __pycache__
+personal.py
+src/onenote/

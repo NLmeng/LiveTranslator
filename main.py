@@ -7,6 +7,9 @@ from src.ocr.extractTexts import extractTexts
 from ui.UI import startGUI
 from src.openai.main import generate_response
 from src.clipboard.main import start_listening
+from src.office.onenote import write_to_onenote
+from src.office.token import acquire_token_func
+
 
 # Create a queue to store the copied content
 copied_content_queue = queue.Queue()
@@ -27,10 +30,9 @@ def process_copied_content():
     while True:
         if not copied_content_queue.empty():
             prompt = copied_content_queue.get()
-            print(f"Generated prompt: {prompt}")
-            # response = generate_response("text-davinci-003", prompt)
             response = generate_response("gpt-3.5-turbo", prompt)
-            print(f"Generated response: {response}")
+            # print(f"Generated prompt: {prompt}")
+            # print(f"Generated response: {response}")
 
 if __name__ == "__main__":
     # Start the start_listening_with_queue function in a separate thread
