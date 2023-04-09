@@ -4,4 +4,5 @@ key.txt
 .env
 __pycache__
 personal.py
+pgpt.py
 src/onenote/

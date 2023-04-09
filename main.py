@@ -6,10 +6,9 @@ import queue
 from src.ocr.extractTexts import extractTexts
 from ui.UI import startGUI
 from src.openai.main import generate_response
-from src.clipboard.main import start_listening
+from src.clipboard.ClipboardListener import ClipboardListener
 from src.office.onenote import write_to_onenote
 from src.office.token import acquire_token_func
-
 
 # Create a queue to store the copied content
 copied_content_queue = queue.Queue()
@@ -20,7 +19,8 @@ def start_listening_with_queue(copied_content_queue):
     :param copied_content_queue: The queue to store the copied content
     :type copied_content_queue: queue.Queue
     """
-    for copied_content in start_listening():
+    clipboard_listener = ClipboardListener()
+    for copied_content in clipboard_listener.start_listening():
         copied_content_queue.put(copied_content)
 
 def process_copied_content():
