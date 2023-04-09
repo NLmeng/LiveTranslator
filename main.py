@@ -31,8 +31,6 @@ def process_copied_content():
         if not copied_content_queue.empty():
             prompt = copied_content_queue.get()
             response = generate_response("gpt-3.5-turbo", prompt)
-            # print(f"Generated prompt: {prompt}")
-            # print(f"Generated response: {response}")
 
 if __name__ == "__main__":
     # Start the start_listening_with_queue function in a separate thread

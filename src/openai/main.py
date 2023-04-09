@@ -12,19 +12,14 @@ def generate_response(model, prompt, api_key_path="key.txt"):
     """
     # Set the API key path
     openai.api_key_path = api_key_path
-
-    # # Call the OpenAI API to generate a response
-    # response = openai.Completion.create(
-    #     model=model,            # The model to use for generating the response
-    #     prompt=prompt,          # The text prompt to generate the response from
-    #     temperature=0.66,       # Controls randomness: higher value -> more random, lower value -> more focused
-    #     max_tokens=60,          # Maximum number of tokens (words) in the generated response
-    #     top_p=1.0,              # Controls diversity: higher value -> more diverse, lower value -> less diverse
-    #     frequency_penalty=0.0,  # Controls token frequency: lower value -> penalizes frequent tokens, higher value -> allows frequent tokens
-    #     presence_penalty=1      # Controls token presence: lower value -> penalizes new tokens, higher value -> allows new tokens
-    # )
-
     # Use the chat endpoint instead of completions
+    # The model to use for generating the response
+    # The text prompt to generate the response from
+    # Controls randomness: higher value -> more random, lower value -> more focused
+    # Maximum number of tokens (words) in the generated response
+    # Controls diversity: higher value -> more diverse, lower value -> less diverse
+    # Controls token frequency: lower value -> penalizes frequent tokens, higher value -> allows frequent tokens
+    # Controls token presence: lower value -> penalizes new tokens, higher value -> allows new tokens
     response = openai.ChatCompletion.create(
         model=model,
         messages=[
