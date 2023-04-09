@@ -2,7 +2,7 @@
 The goal of this project is to use AI to efficiently translate texts via OCR resposively in real time.
 
 ## GPT no API
-This sub-project provides GPT-Plus subscribers the ability to use their GPT-4 in python without having access to GPT-4's api. It provides a function that acts as an api, but it will essentially use https://chat.openai.com/chat in the background. This also supports the usage of older versions of GPT, this way you don't have to pay for the openai-API usage.
+This sub-project provides GPT-Plus subscribers the ability to use their GPT-4 in python without having access to GPT-4's API. It provides a function that substitute the actual API; it will essentially use https://chat.openai.com/chat in the background. This also supports the usage of older versions of GPT, this way you don't have to pay for the openai-API usage or wait for the API's waitlist.
 
 ### Getting Started
 
