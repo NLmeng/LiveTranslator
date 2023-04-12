@@ -17,6 +17,8 @@ Office365-REST-Python-Client = "*"
 adal = "*"
 python-dotenv = "*"
 requests = "*"
+pyobjc-framework-Quartz = "*"
+pygetwindow = "*"
 
 [dev-packages]
 
