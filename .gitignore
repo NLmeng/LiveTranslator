@@ -6,3 +6,4 @@ __pycache__
 personal.py
 pgpt.py
 src/onenote/
+.vscode
