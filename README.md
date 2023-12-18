@@ -15,3 +15,7 @@ The goal of this project is to use AI to efficiently translate texts via OCR res
 
 #### Start
 - `python3 main.py`
+
+
+#### Troubleshoot
+- `pipenv --rm` + `pipenv --python 3.9` + reinstall dependencies

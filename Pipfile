@@ -4,23 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-openai = "*"
-opencv-python = "*"
-numpy = "*"
 pytesseract = "*"
-deep-translator = "*"
 pillow = "*"
-autopep8 = "*"
-pyperclip = "*"
-tiktoken = "*"
-Office365-REST-Python-Client = "*"
-adal = "*"
-python-dotenv = "*"
-requests = "*"
-pyobjc-framework-Quartz = "*"
-pygetwindow = "*"
+opencv-python = "*"
+googletrans = "*"
+pyttsx3 = "*"
+pyobjc-framework-quartz = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.9"
+python_full_version = "3.9.12"

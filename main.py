@@ -1,5 +1,9 @@
-from src.ocr.ocr import OCR
+import screen.screen_capture as screen
 
 
-if __name__ == '__main__':
-    OCR().screen_capture()
+def main():
+    screen.start()
+
+
+if __name__ == "__main__":
+    main()
