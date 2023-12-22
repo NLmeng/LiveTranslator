@@ -2,6 +2,7 @@ import time
 
 import cv2
 import numpy as np
+from .ocr import extract_text
 from PIL import ImageGrab
 
 
@@ -20,7 +21,7 @@ def continuous_capture(interval=2):
         time.sleep(interval)
 
 
-def start():
+def start(interval=2):
     """
     Start the continuous screen capture process.
     Displays each captured screenshot in an OpenCV window and allows the user to exit by pressing 'q'.
@@ -29,12 +30,16 @@ def start():
     # Create a window for display using OpenCV
     cv2.namedWindow("Screenshot", cv2.WINDOW_NORMAL)
 
-    for screenshot in continuous_capture():
+    for screenshot in continuous_capture(interval):
         # Convert the PIL Image (screenshot) to a NumPy array for OpenCV compatibility
         frame = np.array(screenshot)
 
         # Convert color space from RGB (PIL) to BGR (OpenCV)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Extract text from the screenshot using OCR
+        text = extract_text(screenshot)
+        print("Extracted Text:", text)
 
         cv2.imshow("Screenshot", frame)
         if cv2.waitKey(500) & 0xFF == ord('q'):
