@@ -1,5 +1,5 @@
 # LiveTranslator
-Translate texts and overlay on screen.
+Translate video frames and overlay on screen.
 
 ### Getting Started
 
