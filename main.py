@@ -1,8 +1,7 @@
-import screen.screen_capture as screen
+import screen.screen_manipulator as screen
 
 
 def main():
-    # screen.start()
     screen.startMock()
 
 
