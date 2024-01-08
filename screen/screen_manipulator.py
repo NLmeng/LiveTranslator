@@ -1,9 +1,5 @@
 import cv2
-import numpy as np
 from PIL import ImageGrab
-
-from translate.translator import translate_text
-from .ocr import extract_text_and_boxes
 
 
 def capture_screenshot(region=None):
@@ -33,18 +29,3 @@ def put_text_on_frame(frame, text, box, font_scale=0.5, font_thickness=1):
 
     cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX,
                 font_scale, (0, 0, 0), font_thickness, cv2.LINE_AA)
-
-
-def startMock():
-    """ Process a single frame, translate text, overlay translated text with blurred background, and save the image. """
-    screenshot = capture_screenshot()
-    frame = np.array(screenshot)
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    text_box_pairs = extract_text_and_boxes(screenshot)
-
-    for text, box in text_box_pairs:
-        translated_text = translate_text(text)
-        put_text_on_frame(frame, translated_text, box,
-                          font_scale=0.5, font_thickness=1)
-
-    cv2.imwrite("translated_frame.jpg", frame)
