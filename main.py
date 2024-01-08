@@ -1,8 +1,8 @@
-import screen.screen_manipulator as screen
+from src.translation_worker import start_translation_process
 
 
 def main():
-    screen.startMock()
+    start_translation_process()
 
 
 if __name__ == "__main__":
