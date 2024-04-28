@@ -20,7 +20,7 @@ def worker(translation_queue, frame):
         translation_queue.task_done()
 
 
-def start_translation_process():
+def start_translation_process(print_text=False):
     screenshot = capture_screenshot()
     frame = np.array(screenshot)
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -34,6 +34,8 @@ def start_translation_process():
         thread.start()
 
     for text, box in text_box_pairs:
+        if print_text:
+            print(text)
         translation_queue.put((text, box))
 
     for _ in range(4):
