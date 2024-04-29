@@ -12,4 +12,3 @@ def extract_text_and_boxes(image, lang='eng+jpn', psm=6):
             box = (data['left'][i], data['top'][i], data['width'][i], data['height'][i])
             text_box_pairs.append((data['text'][i], box))
     return text_box_pairs
-
