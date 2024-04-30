@@ -2,7 +2,7 @@ import pytesseract
 from pytesseract import Output
 
 
-def extract_text_and_boxes(image, lang='eng+jpn', psm=6):
+def extract_text_and_boxes(image, lang='eng', psm=6):
     """ Extract text and bounding boxes from an image using OCR. """
     config = f'--psm {psm} --oem 3 -l {lang}'
     data = pytesseract.image_to_data(image, config=config, output_type=Output.DICT)

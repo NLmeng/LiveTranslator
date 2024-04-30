@@ -9,26 +9,33 @@ from screen.screen_manipulator import capture_screenshot, put_text_on_frame
 from translate.translator import translate_text
 
 
-def worker(translation_queue, frame, print_boxes):
+def worker(translation_queue, frame, print_boxes, target_lang):
+    language_code_mapping = {
+        'eng': 'en',  # English
+        'jpn': 'ja',  # Japanese
+        'fra': 'fr',  # French
+    }
+
     while True:
         item = translation_queue.get()
         if item is None:
             break
         text, box = item
-        translated_text = translate_text(text)
+        target_lang_code = language_code_mapping.get(target_lang, target_lang)
+        translated_text = translate_text(text, target_lang_code)
         put_text_on_frame(frame, translated_text, box, draw_box=print_boxes)
         translation_queue.task_done()
 
 
-def start_translation_process(print_text=False, print_boxes=False):
+def start_translation_process(print_text=False, print_boxes=False, source_lang='en', target_lang='en'):
     screenshot = capture_screenshot()
     frame = np.array(screenshot)
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    text_box_pairs = extract_text_and_boxes(screenshot)
+    text_box_pairs = extract_text_and_boxes(screenshot, source_lang)
 
     translation_queue = Queue()
     threads = [threading.Thread(target=worker, args=(
-        translation_queue, frame, print_boxes)) for _ in range(4)]
+        translation_queue, frame, print_boxes, target_lang)) for _ in range(4)]
 
     for thread in threads:
         thread.start()
