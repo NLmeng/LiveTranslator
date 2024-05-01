@@ -14,9 +14,3 @@ def extract_text_and_boxes(image, lang='eng', psm=6):
                    data['width'][i], data['height'][i])
             text_box_pairs.append((data['text'][i], box))
     return text_box_pairs
-
-     
-def log_text_box_pairs(text_box_pairs):
-    for i in range(len(text_box_pairs)):
-        for j in range(len(text_box_pairs[i])):
-            print(text_box_pairs[i][j])
