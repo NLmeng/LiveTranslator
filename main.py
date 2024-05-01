@@ -3,13 +3,13 @@ import argparse
 from src.translation_worker import start_translation_process
 
 
-def main(print_text, print_boxes, source_lang, target_lang):
+def main(print_text, print_boxes, source_lang, target_lang, plot_boxes):
     if print_text:
         print("Text extraction and translation with console output enabled.")
     if print_boxes:
         print("Text extraction and translation with bounding box output enabled.")
 
-    start_translation_process(print_text, print_boxes, source_lang, target_lang)
+    start_translation_process(print_text, print_boxes, source_lang, target_lang, plot_boxes)
 
 
 if __name__ == "__main__":
@@ -23,6 +23,8 @@ if __name__ == "__main__":
                         help='Specify OCR source language (default: "eng")')
     parser.add_argument('--to', dest='target_lang', type=str, default='eng',
                         help='Specify target translation language (default: "eng")')
+    parser.add_argument('--plot', dest='plot_boxes', action='store_true',
+                        help='Plot the boxes gotten from OCR (before translated)')
 
     args = parser.parse_args()
-    main(args.print_text, args.print_boxes, args.source_lang, args.target_lang)
+    main(args.print_text, args.print_boxes, args.source_lang, args.target_lang, args.plot_boxes)

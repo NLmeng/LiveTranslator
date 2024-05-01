@@ -10,6 +10,7 @@ opencv-python = "*"
 googletrans = "==3.1.0a0"
 pyttsx3 = "*"
 pyobjc-framework-quartz = "*"
+matplotlib = "*"
 
 [dev-packages]
 

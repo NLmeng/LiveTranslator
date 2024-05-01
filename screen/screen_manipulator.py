@@ -7,7 +7,6 @@ def capture_screenshot(region=None):
     screen = ImageGrab.grab(bbox=region)
     return screen
 
-
 def blur_background(frame, box):
     """ Apply a blur effect to the background of a bounding box. """
     x, y, w, h = box

@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 
 from screen.ocr import extract_text_and_boxes
+from screen.plot_boxes import plot_text_boxes
 from screen.screen_manipulator import capture_screenshot, put_text_on_frame
 from translate.translator import translate_text
 
@@ -27,11 +28,14 @@ def worker(translation_queue, frame, print_boxes, target_lang):
         translation_queue.task_done()
 
 
-def start_translation_process(print_text=False, print_boxes=False, source_lang='en', target_lang='en'):
+def start_translation_process(print_text=False, print_boxes=False, source_lang='eng', target_lang='eng', plot_before_translation=False):
     screenshot = capture_screenshot()
     frame = np.array(screenshot)
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    text_box_pairs = extract_text_and_boxes(screenshot, source_lang)
+    text_box_pairs = extract_text_and_boxes(screenshot, lang=source_lang)
+
+    if plot_before_translation:
+        plot_text_boxes(text_box_pairs)
 
     translation_queue = Queue()
     threads = [threading.Thread(target=worker, args=(
