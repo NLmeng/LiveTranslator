@@ -1,5 +1,12 @@
 import cv2
+import numpy as np
 from PIL import ImageGrab
+
+
+def get_image_from_path(image_path):
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    return image
 
 
 def capture_screenshot(region=None):
@@ -16,13 +23,14 @@ def blur_background(frame, box):
     frame[y:y+h, x:x+w] = blurred_box
     return frame
 
+
 def put_text_on_frame(frame, text, box, font_scale=0.5, font_thickness=1, draw_box=False):
     """ Puts text on the frame image with a blurred background for the text box and optionally draws the bounding box. """
     x, y, w, h = box
     frame = blur_background(frame, box)
 
     if draw_box:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2) 
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     text_size = cv2.getTextSize(
         text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]

@@ -3,18 +3,21 @@ import argparse
 from src.translation_worker import start_translation_process
 
 
-def main(print_text, print_boxes, source_lang, target_lang):
-    if print_text:
+def main(args):
+    if args.print_text:
         print("Text extraction and translation with console output enabled.")
-    if print_boxes:
+    if args.print_boxes:
         print("Text extraction and translation with bounding box output enabled.")
 
-    start_translation_process(print_text, print_boxes, source_lang, target_lang)
+    start_translation_process(args.img_src, args.print_text,
+                              args.print_boxes, args.source_lang, args.target_lang)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Translate text from screenshots.")
+    parser.add_argument('--src', dest='img_src', type=str, default='',
+                        help='Specify path to image (default: "")')
     parser.add_argument('--print', dest='print_text', action='store_true',
                         help='Print extracted texts to the console')
     parser.add_argument('--print-boxes', dest='print_boxes', action='store_true',
@@ -25,4 +28,4 @@ if __name__ == "__main__":
                         help='Specify target translation language (default: "eng")')
 
     args = parser.parse_args()
-    main(args.print_text, args.print_boxes, args.source_lang, args.target_lang)
+    main(args)
