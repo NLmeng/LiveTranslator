@@ -27,9 +27,6 @@ def worker(translation_queue, frame, print_boxes, target_lang):
         put_text_on_frame(frame, translated_text, box, draw_box=print_boxes)
         translation_queue.task_done()
 
-
-# TODO: use a clustering algorithm to group text_boxes
-# then contcat them ensuring the order is correct (horizontally: going left-right -> top-bottom) (going pixels by pixels if necessary)
 # TODO: fits the translated within the box
 # TODO: deal with outliers, right now it seem there is one group of outlier that is grouped even though they are far
 def start_translation_process(print_text=False, print_boxes=False, cluster_alg='dbscan', plot_clusters=False, source_lang='eng', target_lang='eng'):
