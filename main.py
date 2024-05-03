@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument('--print-boxes', dest='print_boxes',
                         action='store_true', help='Print bounding boxes of extracted texts')
     parser.add_argument('--from', dest='source_lang', type=str,
-                        default='eng', help='Specify OCR source language (default: "eng")')
+                        default='', help='Specify OCR source language (default: "")')
     parser.add_argument('--to', dest='target_lang', type=str, default='eng',
                         help='Specify target translation language (default: "eng")')
 
