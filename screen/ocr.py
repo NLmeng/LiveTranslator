@@ -1,8 +1,9 @@
 import re
+
 import cv2
-import numpy as np
 import pytesseract
 from pytesseract import Output
+
 
 def get_lang_charset(lang_code):
     """Returns a regular expression pattern for characters typical of the given language."""

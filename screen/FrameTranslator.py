@@ -63,3 +63,9 @@ class FrameTranslator:
             thread.join()
             
         cv2.imwrite("translated_frame.jpg", self.frame)
+
+    def show_translated_frame(self):
+        """Display the final translated frame."""
+        cv2.imshow('Translated Frame', self.frame)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
