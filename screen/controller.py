@@ -2,6 +2,7 @@ import cv2
 from PIL import ImageGrab
 
 def get_image_from_path(image_path):
+    """Load an image from a given file path and convert it to RGB."""
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return image
@@ -24,7 +25,7 @@ def put_text_on_frame(frame, text, box, font_scale=0.5, font_thickness=1, draw_b
     frame = blur_background(frame, box)
 
     if draw_box:
-        cv2.rectangle(frame, (x, y), (x + w, x + h), (0, 255, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
     text_x = x + (w - text_size[0]) // 2
@@ -32,3 +33,10 @@ def put_text_on_frame(frame, text, box, font_scale=0.5, font_thickness=1, draw_b
 
     cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX,
                 font_scale, (0, 0, 0), font_thickness, cv2.LINE_AA)
+
+def draw_bounding_boxes(image, bounding_boxes):
+    """Draw bounding boxes on the image to visualize the segmentation."""
+    for box in bounding_boxes:
+        x, y, w, h = box
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    return image

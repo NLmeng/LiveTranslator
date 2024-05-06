@@ -24,8 +24,8 @@ class Preprocessor:
         return cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
     def remove_noise(self):
-        """Noise removal using median blur."""
-        return cv2.medianBlur(self.image, 5)
+        """Gentle noise removal using median blur."""
+        return cv2.medianBlur(self.image, 3)
 
     def detect_orientation(self):
         """Use pytesseract OSD to detect orientation and script detection."""
@@ -63,8 +63,8 @@ class Preprocessor:
 
     def process_image(self):
         """Perform all 'necessary' preprocessing steps."""
-        self.image = self.add_border()
         self.detect_orientation()
+        image = self.add_border()
         image = self.remove_noise()
         if self.should_deskew:
             image = self.deskew()
