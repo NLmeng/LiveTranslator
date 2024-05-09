@@ -22,7 +22,6 @@ def extract_text_from_blocks(image, bounding_boxes, lang='eng'):
     for box in bounding_boxes:
         x, y, w, h = box
         roi = image[y:y+h, x:x+w]
-
         data = pytesseract.image_to_data(roi, config=f'--oem 3 -l {lang}', output_type=Output.DICT)
 
         grouped_text = {}
