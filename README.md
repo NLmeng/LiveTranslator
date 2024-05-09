@@ -23,14 +23,6 @@ Use the following command to translate text from images:
 python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --from <lang> --to <lang>
 ```
 
-#### Test
-
-Use the following command to run tests:
-
-```bash
-python3 tests/run_tests.py
-```
-
 #### CLI Options Explanation
 
 - --src (Required): Specify the path to the image file to be translated.
@@ -39,6 +31,30 @@ python3 tests/run_tests.py
 - --from (Optional): Specify the source language for OCR (e.g., "eng", "jpn"). If not specified, it's auto-detected.
 - --to (Optional): Specify the target language for translation (default is "eng").
 - --show (Optional): Show the final translated image.
+
+#### Test
+
+Use the following command to run tests:
+
+```bash
+python3 tests/run_tests.py <modules>
+```
+
+#### CLI Options Explanation
+
+- modules (Optional): Paths to specific test modules or classes.
+- -v, --verbosity (Optional): Verbosity level for test output.
+
+  0: Minimal output
+
+  1: Normal output (default)
+
+  2: Detailed output
+
+  3: Debug-level output
+
+- --failfast (Optional): Stop running tests on the first failure.
+- --buffer (Optional): Buffer stdout and stderr during test execution.
 
 #### Troubleshoot
 

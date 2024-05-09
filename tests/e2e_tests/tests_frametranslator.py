@@ -4,6 +4,7 @@
 # from queue import Queue
 # from screen.FrameTranslator import FrameTranslator
 
+# TODO: do end to end tests for FrameTranslator 
 
 # class TestFrameTranslator(unittest.TestCase):
   
