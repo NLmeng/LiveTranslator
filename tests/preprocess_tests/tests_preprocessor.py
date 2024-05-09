@@ -9,7 +9,8 @@ from preprocess.Preprocessor import Preprocessor
 
 class TestPreprocessor(unittest.TestCase):
     def setUp(self):
-        self.test_image = np.zeros((500, 500, 3), np.uint8) # a black square image
+        self.test_image = np.zeros(
+            (500, 500, 3), np.uint8)  # a black square image
         self.jpn_image1 = cv2.imread("tests/pics/jgg1.jpg")
         self.jpn_image1_90 = cv2.imread("tests/pics/jgg1_90.jpg")
 
@@ -22,7 +23,7 @@ class TestPreprocessor(unittest.TestCase):
         self.assertEqual(preprocessor.should_deskew, True)
         self.assertEqual(preprocessor.script, 'English')
         self.assertEqual(preprocessor.angle, 90)
-    
+
     @patch('pytesseract.image_to_osd')
     def test_full_mock_eng(self, mock_image_to_osd):
         mock_image_to_osd.return_value = "Rotate: 0\nScript: English"
@@ -68,8 +69,10 @@ class TestPreprocessor(unittest.TestCase):
 
         bordered_image = preprocessor.add_border()
 
-        self.assertEqual(bordered_image.shape[0], self.test_image.shape[0] + 20)
-        self.assertEqual(bordered_image.shape[1], self.test_image.shape[1] + 20)
+        self.assertEqual(
+            bordered_image.shape[0], self.test_image.shape[0] + 20)
+        self.assertEqual(
+            bordered_image.shape[1], self.test_image.shape[1] + 20)
 
     @patch('pytesseract.image_to_osd')
     def test_remove_noise(self, mock_image_to_osd):
@@ -120,6 +123,7 @@ class TestPreprocessor(unittest.TestCase):
         self.assertEqual(preprocessor.should_deskew, True)
         self.assertEqual(preprocessor.script, 'Japanese')
         self.assertEqual(preprocessor.angle, 270)  # 360 - 90 (counter clock)
+
 
 if __name__ == '__main__':
     unittest.main()
