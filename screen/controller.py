@@ -1,6 +1,9 @@
 import cv2
 from PIL import ImageGrab
 
+# TODO: refactor / restructure
+# TODO: make text fits into the box (calculate font, wrap into multiple lines)
+
 def get_image_from_path(image_path):
     """Load an image from a given file path and convert it to RGB."""
     image = cv2.imread(image_path)
