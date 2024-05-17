@@ -1,13 +1,11 @@
-
 import threading
 from queue import Queue
 
 import cv2
 
 from preprocess.Preprocessor import Preprocessor
-from screen.controller import (draw_bounding_boxes, get_image_from_path,
-                               put_text_on_frame)
 from screen.ocr import extract_text_from_blocks, segment_image
+from screen.Postprocessor import Postprocessor
 from translate.translator import translate_text
 
 
@@ -25,10 +23,12 @@ class FrameTranslator:
             'fra': 'fr',
         }
 
+        self.postprocessor = Postprocessor()
+
         if frame is not None:
             self.frame = frame
         elif img_path is not None:
-            self.frame = get_image_from_path(img_path)
+            self.frame = self.postprocessor.get_image_from_path(img_path)
         else:
             raise ValueError("Either img_path or frame must be provided.")
 
@@ -47,7 +47,7 @@ class FrameTranslator:
             target_lang_code = self.lang_code_map.get(
                 self.target_lang, self.target_lang)
             translated_text = translate_text(text, target_lang_code)
-            self.frame = put_text_on_frame(
+            self.frame = self.postprocessor.put_text_on_frame(
                 self.frame, translated_text, box, draw_box=self.print_boxes)
             self.translation_queue.task_done()
 

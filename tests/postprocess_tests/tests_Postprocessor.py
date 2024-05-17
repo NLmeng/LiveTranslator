@@ -8,7 +8,7 @@ from screen.controller import (blur_background, capture_screenshot,
                                draw_bounding_boxes, get_image_from_path,
                                put_text_on_frame)
 
-
+# TODO: update tests
 class TestController(unittest.TestCase):
     @patch('cv2.imread')
     @patch('cv2.cvtColor')

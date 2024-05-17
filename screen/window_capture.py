@@ -6,12 +6,16 @@ import cv2
 import numpy as np
 import pyautogui
 import pygetwindow as gw
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageGrab
 from Quartz import (CGWindowListCopyWindowInfo, kCGNullWindowID,
                     kCGWindowListOptionOnScreenOnly, kCGWindowName)
 
 from screen.FrameTranslator import FrameTranslator
 
+def capture_screenshot(region=None):
+    """Capture a screenshot. If region is provided, captures a specific area."""
+    screen = ImageGrab.grab(bbox=region)
+    return screen
 
 def find_window(title):
     """Use Quartz to find a window by title and return its geometry."""
