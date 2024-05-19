@@ -1,8 +1,6 @@
 import argparse
 import os
 import sys
-import pygetwindow as gw
-import Quartz
 
 scripts_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(scripts_dir, '..'))
@@ -10,19 +8,6 @@ sys.path.append(project_root)
 
 from screen.FrameTranslator import FrameTranslator
 from ui.App import start_gui
-
-def list_window_titles():
-    """ for windows OS"""
-    windows = gw.getAllWindows()
-    return [win.title for win in windows if win.isVisible]
-
-def get_window_list():
-    """ for macOS"""
-    window_list = []
-    window_info_list = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
-    for window_info in window_info_list:
-        window_list.append(window_info.get('kCGWindowName', 'Unknown'))
-    return window_list
 
 def translate_text_from_image(img_src, source_lang, target_lang, print_text=False, print_boxes=False, show=False):
     """Translate text from an image."""
