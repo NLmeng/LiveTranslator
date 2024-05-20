@@ -3,18 +3,35 @@ import argparse
 import os
 import sys
 
+import pygetwindow as gw
+import Quartz
+
+
+def list_window_titles():
+    windows = gw.getAllWindows()
+    return [win.title for win in windows if win.isVisible]
+
+def get_window_list():
+    window_list = []
+    window_info_list = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
+    for window_info in window_info_list:
+        window_list.append(window_info['kCGWindowName'])
+    return window_list
+
+
 scripts_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(scripts_dir, '..'))
 sys.path.append(project_root)
 
 from screen.FrameTranslator import FrameTranslator
+from screen.window_capture import main as window_capture_main
+
 
 def translate_text_from_image(img_src, source_lang, target_lang, print_text=False, print_boxes=False, show=False):
     """Translate text from an image."""
     translator = FrameTranslator(
-        img_src, source_lang, target_lang, print_text, print_boxes)
+        img_path=img_src, source_lang=source_lang, target_lang=target_lang, print_text=print_text, print_boxes=print_boxes)
     translator.start_translation_process()
-
     if show:
         translator.show_translated_frame()
 
@@ -41,9 +58,31 @@ def parse_args():
                                   help='Show the final translated image')
     translate_parser.set_defaults(func=process_translate)
 
+    window_parser = subparsers.add_parser('capture', help="Capture and translate a specified window")
+    window_parser.add_argument('--title', type=str, required=True,
+                               help='Title of the window to capture')
+    window_parser.add_argument('--interval', type=int, default=5,
+                               help='Interval between captures in seconds')
+    window_parser.add_argument('--print', dest='print_text', action='store_true',
+                                  help='Print extracted texts to the console')
+    window_parser.add_argument('--print-boxes', dest='print_boxes', action='store_true',
+                                  help='Print bounding boxes of extracted texts')
+    window_parser.add_argument('--from', dest='source_lang', type=str, default='',
+                                  help='Specify OCR source language (default: "")')
+    window_parser.add_argument('--to', dest='target_lang', type=str, default='eng',
+                                  help='Specify target translation language (default: "eng")')
+    window_parser.add_argument('--show', action='store_true', help='Show translated frames live')
+    window_parser.set_defaults(func=lambda args: window_capture_main(args.title, args.interval, args.source_lang, args.target_lang, args.print_text, args.print_boxes, args.show))
+
     return parser.parse_args()
 
 def main():
+    # # windows
+    # window_titles = list_window_titles()
+    # print(window_titles)
+    # macos
+    windows = get_window_list()
+    print(windows)
     args = parse_args()
     args.func(args)
 
