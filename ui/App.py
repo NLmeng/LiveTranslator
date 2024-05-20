@@ -27,13 +27,13 @@ class App:
         self.root.title("Window Capture and Translation")
 
         self.selected_window = tk.StringVar()
-        self.capture_mode = tk.StringVar(value='Interval')
+        self.capture_mode = tk.StringVar(value='Capture in Intervals')
 
         self.label_mode = tk.Label(
             root, text="Select capture mode:")
         self.label_mode.pack(pady=10)
 
-        self.mode_options = ['Interval', 'Wait']
+        self.mode_options = ['Capture in Intervals', 'Capture and Wait']
         self.mode_combobox = ttk.Combobox(
             root, textvariable=self.capture_mode, values=self.mode_options)
         self.mode_combobox.pack(pady=10)
@@ -174,7 +174,7 @@ class App:
 
         self.show_translated_frame(translator.frame)
 
-        if self.capture_mode.get() == 'Interval':
+        if self.capture_mode.get() == 'Capture in Intervals':
             self.root.after(self.interval * 1000, self.capture_and_translate)
         else:
             self.wait_for_close_and_capture_again()
@@ -204,7 +204,7 @@ class App:
         self.current_screenshot_windows.remove(window)
         if not self.capturing:
             return
-        if self.capture_mode.get() == 'Wait':
+        if self.capture_mode.get() == 'Capture and Wait':
             self.root.after(self.interval * 1000, self.capture_and_translate)
 
     def wait_for_close_and_capture_again(self):

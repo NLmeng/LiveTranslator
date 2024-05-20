@@ -2,6 +2,22 @@ import argparse
 import os
 import sys
 
+import pygetwindow as gw
+import Quartz
+
+
+def list_window_titles():
+    windows = gw.getAllWindows()
+    return [win.title for win in windows if win.isVisible]
+
+def get_window_list():
+    window_list = []
+    window_info_list = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
+    for window_info in window_info_list:
+        window_list.append(window_info['kCGWindowName'])
+    return window_list
+
+
 scripts_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(scripts_dir, '..'))
 sys.path.append(project_root)
@@ -49,6 +65,12 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    # # windows
+    # window_titles = list_window_titles()
+    # print(window_titles)
+    # macos
+    windows = get_window_list()
+    print(windows)
     args = parse_args()
     args.func(args)
 
