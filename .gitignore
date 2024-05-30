@@ -8,3 +8,4 @@ pgpt.py
 src/onenote/
 .vscode
 **.jpg
+.DS_Store
