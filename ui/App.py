@@ -1,4 +1,3 @@
-
 import sys
 import tkinter as tk
 from tkinter import Canvas, ttk
@@ -16,6 +15,34 @@ if sys.platform == "darwin":
 from screen.FrameTranslator import FrameTranslator
 
 
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tip_window = None
+        self.id = None
+        self.x = self.y = 0
+        widget.bind("<Enter>", self.show_tip)
+        widget.bind("<Leave>", self.hide_tip)
+
+    def show_tip(self, event=None):
+        x, y, _, _ = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 25
+        self.tip_window = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(True)
+        tw.wm_geometry(f"+{x}+{y}")
+        label = tk.Label(tw, text=self.text, justify=tk.LEFT,
+                         background="#ffffe0", relief=tk.SOLID, borderwidth=1)
+        label.pack(ipadx=1)
+
+    def hide_tip(self, event=None):
+        tw = self.tip_window
+        self.tip_window = None
+        if tw:
+            tw.destroy()
+
+
 class App:
     def __init__(self, root):
         self.root = root
@@ -30,6 +57,8 @@ class App:
         self.label_mode.pack(pady=10)
 
         self.mode_options = ['Capture in Intervals', 'Capture and Wait']
+        # ToolTip(self.mode_options, "Capture the selected window/region every intervals; or capture the selected window/region once and wait until the translated window is closed.")
+
         self.mode_combobox = ttk.Combobox(
             root, textvariable=self.capture_mode, values=self.mode_options)
         self.mode_combobox.pack(pady=10)
@@ -53,6 +82,8 @@ class App:
 
         self.status_label = tk.Label(root, text="", wraplength=400)
         self.status_label.pack_forget()
+
+        ToolTip(self.status_label, "Status of the running capture process.")
 
         self.capturing = False
         self.current_screenshot_windows = []
