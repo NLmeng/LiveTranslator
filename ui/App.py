@@ -208,7 +208,35 @@ class App:
     def stop_capture(self):
         self.capturing = False
         self.close_all_screenshot_windows()
-        self.toggle_ui_elements(True)
+        self.reset_ui_elements()
+
+    def reset_ui_elements(self):
+        self.selected_window.set("")
+        self.capture_mode.set('Capture and Wait')
+        self.capture_type.set('Region')
+        self.interval_var.set(5)
+        self.capture_region = None
+
+        self.label_mode.pack(pady=10)
+        self.mode_combobox.pack(pady=10)
+        self.label_interval.pack(pady=10)
+        self.interval_spinbox.pack(pady=10)
+        self.start_button.pack(pady=10)
+        self.stop_button.pack_forget()
+        self.status_label.pack_forget()
+
+        self.label_source_lang.pack(pady=10)
+        self.source_lang_combobox.pack(pady=10)
+        self.label_target_lang.pack(pady=10)
+        self.target_lang_combobox.pack(pady=10)
+
+        self.capture_type_label.pack(pady=10)
+        self.capture_type_combobox.pack(pady=10)
+        self.select_region_button.pack(pady=10)
+        self.label.pack_forget()
+        self.window_combobox.pack_forget()
+        self.refresh_button.pack_forget()
+        self.window_combobox.config(state='normal')
 
     def toggle_ui_elements(self, show):
         elements = [
