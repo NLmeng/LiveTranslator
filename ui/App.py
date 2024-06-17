@@ -1,46 +1,15 @@
-import sys
 import tkinter as tk
-from tkinter import Canvas, ttk
+from tkinter import ttk
 
 import cv2
 import numpy as np
 import pyautogui
-import pygetwindow as gw
 from PIL import Image, ImageTk
 
-if sys.platform == "darwin":
-    from Quartz import (CGWindowListCopyWindowInfo, kCGNullWindowID,
-                        kCGWindowListOptionOnScreenOnly)
-
 from screen.FrameTranslator import FrameTranslator
-
-
-class ToolTip:
-    def __init__(self, widget, text):
-        self.widget = widget
-        self.text = text
-        self.tip_window = None
-        self.id = None
-        self.x = self.y = 0
-        widget.bind("<Enter>", self.show_tip)
-        widget.bind("<Leave>", self.hide_tip)
-
-    def show_tip(self, event=None):
-        x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 25
-        self.tip_window = tw = tk.Toplevel(self.widget)
-        tw.wm_overrideredirect(True)
-        tw.wm_geometry(f"+{x}+{y}")
-        label = tk.Label(tw, text=self.text, justify=tk.LEFT,
-                         background="#ffffe0", relief=tk.SOLID, borderwidth=1)
-        label.pack(ipadx=1)
-
-    def hide_tip(self, event=None):
-        tw = self.tip_window
-        self.tip_window = None
-        if tw:
-            tw.destroy()
+from ui.RegionSelector import RegionSelector
+from ui.ToolTip import ToolTip
+from ui.WindowCapture import WindowCapture
 
 
 class App:
@@ -52,13 +21,10 @@ class App:
         self.capture_mode = tk.StringVar(value='Capture and Wait')
         self.capture_type = tk.StringVar(value='Region')
 
-        self.label_mode = tk.Label(
-            root, text="Select capture mode:")
+        self.label_mode = tk.Label(root, text="Select capture mode:")
         self.label_mode.pack(pady=10)
 
         self.mode_options = ['Capture in Intervals', 'Capture and Wait']
-        # ToolTip(self.mode_options, "Capture the selected window/region every intervals; or capture the selected window/region once and wait until the translated window is closed.")
-
         self.mode_combobox = ttk.Combobox(
             root, textvariable=self.capture_mode, values=self.mode_options)
         self.mode_combobox.pack(pady=10)
@@ -108,8 +74,7 @@ class App:
             root, textvariable=self.target_lang, values=list(self.lang_options.keys()))
         self.target_lang_combobox.pack(pady=10)
 
-        self.capture_type_label = tk.Label(
-            root, text="Select capture type:")
+        self.capture_type_label = tk.Label(root, text="Select capture type:")
         self.capture_type_label.pack(pady=10)
 
         self.capture_type_options = ['Window', 'Region']
@@ -137,47 +102,18 @@ class App:
             root, text="Select Region", command=self.select_region)
         self.select_region_button.pack(pady=10)
 
-        self.refresh_window_list()
+        self.window_capture = WindowCapture()
+        self.region_selector = RegionSelector(self)
 
         self.capture_region = None
+        self.refresh_window_list()
 
     def get_window_list(self):
-        if sys.platform == "darwin":
-            return self.get_window_list_macos()
-        else:
-            return self.get_window_list_windows()
-
-    def get_window_list_macos(self):
-        window_list = []
-        options = kCGWindowListOptionOnScreenOnly
-        window_info_list = CGWindowListCopyWindowInfo(options, kCGNullWindowID)
-        for window_info in window_info_list:
-            window_name = window_info.get('kCGWindowName', 'Unknown')
-            if window_name:
-                window_list.append(window_name)
-        return window_list
-
-    def get_window_list_windows(self):
-        windows = gw.getAllWindows()
-        return [win.title for win in windows if win.isVisible]
+        return self.window_capture.get_window_list()
 
     def refresh_window_list(self):
         self.window_list = self.get_window_list()
         self.window_combobox['values'] = self.window_list
-
-    def find_window(self, title):
-        if sys.platform == "darwin":
-            options = kCGWindowListOptionOnScreenOnly
-            window_list = CGWindowListCopyWindowInfo(options, kCGNullWindowID)
-            for window in window_list:
-                window_name = window.get('kCGWindowName', '')
-                if window_name == title:
-                    return window
-        else:
-            windows = gw.getWindowsWithTitle(title)
-            if windows:
-                return windows[0]
-        return None
 
     def on_capture_type_change(self, event):
         if self.capture_type.get() == 'Window':
@@ -307,7 +243,7 @@ class App:
         source_lang_code = self.lang_options.get(self.source_lang.get(), '')
         target_lang_code = self.lang_options.get(self.target_lang.get(), 'eng')
 
-        window_info = self.find_window(window_title)
+        window_info = self.window_capture.find_window(window_title)
 
         if window_info:
             self.close_all_screenshot_windows()
@@ -333,52 +269,11 @@ class App:
     def select_region(self):
         self.selected_window.set("")
         self.window_combobox.config(state='disabled')
-        self.root.withdraw()
-        self.selection_window = tk.Toplevel(self.root)
-        self.selection_window.attributes("-alpha", 0.3)
-        self.selection_window.attributes("-topmost", True)
-        self.selection_window.geometry(
-            f"{self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}+0+0")
-
-        self.canvas = Canvas(self.selection_window, cursor="cross")
-        self.canvas.pack(fill=tk.BOTH, expand=tk.YES)
-
-        self.start_x = None
-        self.start_y = None
-        self.rect = None
-
-        self.canvas.bind("<Button-1>", self.on_button_press)
-        self.canvas.bind("<B1-Motion>", self.on_mouse_drag)
-        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
-
-    def on_button_press(self, event):
-        self.start_x = event.x
-        self.start_y = event.y
-        self.rect = self.canvas.create_rectangle(
-            self.start_x, self.start_y, self.start_x, self.start_y, outline='red')
-
-    def on_mouse_drag(self, event):
-        cur_x, cur_y = (event.x, event.y)
-        self.canvas.coords(self.rect, self.start_x, self.start_y, cur_x, cur_y)
-
-    def on_button_release(self, event):
-        self.end_x = event.x
-        self.end_y = event.y
-        self.capture_region = (self.selection_window.winfo_rootx() + min(self.start_x, self.end_x),
-                               self.selection_window.winfo_rooty() + min(self.start_y, self.end_y),
-                               abs(self.start_x - self.end_x),
-                               abs(self.start_y - self.end_y))
-        self.selection_window.destroy()
-        self.root.deiconify()
-        self.window_combobox.config(state='disabled')
+        self.region_selector.start_selection()
 
     def capture_and_translate_delayed(self, window_info, source_lang_code, target_lang_code):
-        if sys.platform == "darwin":
-            bounds = window_info['kCGWindowBounds']
-            x, y, width, height = map(
-                int, [bounds['X'], bounds['Y'], bounds['Width'], bounds['Height']])
-        else:
-            x, y, width, height = window_info.left, window_info.top, window_info.width, window_info.height
+        x, y, width, height = self.window_capture.get_window_bounds(
+            window_info)
 
         img = pyautogui.screenshot(region=(x, y, width, height))
         np_img = np.array(img)
