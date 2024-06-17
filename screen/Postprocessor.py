@@ -76,7 +76,10 @@ class Postprocessor:
         total_text_height = line_height * len(wrapped_text)
         if total_text_height > h:
             font_size = int(h / len(wrapped_text))
-            font = ImageFont.truetype(self.font_path, font_size)
+            try:
+                font = ImageFont.truetype(self.font_path, font_size)
+            except IOError:
+                font = ImageFont.load_default()
             line_height = font.getbbox('A')[3] - font.getbbox('A')[1]
 
         text_color = (255, 255, 255) if np.mean(sub_frame) < 128 else (0, 0, 0)

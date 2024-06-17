@@ -1,8 +1,3 @@
-<!-- #### openai API
-- generate openai API key from https://platform.openai.com/account/api-keys
-- create a `key.txt` in root directory (make sure you are in root and do `touch key.txt`)
-- paste your generated key into `key.txt` (this is meant for your own usage only, don't commit it) -->
-
 # LiveTranslator
 
 LiveTranslator translates text from images using OCR and overlays the translated text directly on the images.
@@ -20,7 +15,7 @@ LiveTranslator translates text from images using OCR and overlays the translated
 Use the following command to translate text from images:
 
 ```bash
-python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --from <lang> --to <lang>
+python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --from <lang> --to <lang> --translator <translator>
 ```
 
 #### CLI Options Explanation
@@ -31,6 +26,7 @@ python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --
 - `--from` (Optional): Specify the source language for OCR (e.g., "eng", "jpn"). If not specified, it's auto-detected.
 - `--to` (Optional): Specify the target language for translation (default is "eng").
 - `--show` (Optional): Show the final translated image.
+- `--translator` (Optional): Choose the translation service (default is "google"). Options: `google`, `deepl`.
 
 Use the following command to run the application's GUI:
 
@@ -86,7 +82,7 @@ python3 tests/run_tests.py <modules>
 
 #### CLI Options Explanation
 
-- `modules` (Optional): Paths to specific test modules or classes. **Leaving empty will run all tests
+- `modules` (Optional): Paths to specific test modules or classes. **Leaving empty will run all tests**
 - `-v, --verbosity` (Optional): Verbosity level for test output.
   - 0: Minimal output
   - 1: Normal output (default)
@@ -98,3 +94,17 @@ python3 tests/run_tests.py <modules>
 ### Troubleshoot
 
 - `pipenv --rm` + `pipenv --python 3.9` + reinstall dependencies
+
+### Example Usage
+
+To translate text from an image using the Google Translator, run:
+
+```bash
+python3 scripts/main.py translate --src path/to/your/image.png --print --print-boxes --from eng --to jpn --translator google --show
+```
+
+## To run the application
+
+```bash
+python3 scripts/main.py gui
+```

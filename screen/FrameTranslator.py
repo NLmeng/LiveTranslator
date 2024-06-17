@@ -6,11 +6,14 @@ import cv2
 from preprocess.Preprocessor import Preprocessor
 from screen.ocr import extract_text_from_blocks, segment_image
 from screen.Postprocessor import Postprocessor
-from translate.translator import translate_text
+# TODO: use translator module
+from translate.DLTranslator import DLTranslator
+from translate.GoogleTranslator import GoogleTranslator
 
 
 class FrameTranslator:
-    def __init__(self, img_path=None, frame=None, source_lang='', target_lang='eng', print_text=False, print_boxes=False):
+    def __init__(self, translator=GoogleTranslator(), img_path=None, frame=None, source_lang='', target_lang='eng', print_text=False, print_boxes=False):
+        self.translator = translator
         self.source_lang = source_lang
         self.target_lang = target_lang
         self.print_text = print_text
@@ -46,7 +49,7 @@ class FrameTranslator:
             text, box = item
             target_lang_code = self.lang_code_map.get(
                 self.target_lang, self.target_lang)
-            translated_text = translate_text(text, target_lang_code)
+            translated_text = self.translator.translate(text, target_lang_code)
             self.frame = self.postprocessor.put_text_on_frame(
                 self.frame, translated_text, box, draw_box=self.print_boxes)
             self.translation_queue.task_done()

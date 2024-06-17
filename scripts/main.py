@@ -7,20 +7,29 @@ project_root = os.path.abspath(os.path.join(scripts_dir, '..'))
 sys.path.append(project_root)
 
 from screen.FrameTranslator import FrameTranslator
+from translate.DLTranslator import DLTranslator
+from translate.GoogleTranslator import GoogleTranslator
 from ui.App import start_gui
 
 
-def translate_text_from_image(img_src, source_lang, target_lang, print_text=False, print_boxes=False, show=False):
+def translate_text_from_image(img_src, source_lang, target_lang, translator, print_text=False, print_boxes=False, show=False):
     """Translate text from an image."""
-    translator = FrameTranslator(
-        img_path=img_src, source_lang=source_lang, target_lang=target_lang, print_text=print_text, print_boxes=print_boxes)
-    translator.start_translation_process()
+    frame_translator = FrameTranslator(
+        translator=translator, img_path=img_src, source_lang=source_lang, target_lang=target_lang, print_text=print_text, print_boxes=print_boxes)
+    frame_translator.start_translation_process()
     if show:
-        translator.show_translated_frame()
+        frame_translator.show_translated_frame()
 
 def process_translate(args):
+    if args.translator == 'google':
+        translator = GoogleTranslator()
+    elif args.translator == 'deepl':
+        translator = DLTranslator()
+    else:
+        raise ValueError(f"Unsupported translator: {args.translator}")
+    
     translate_text_from_image(
-        args.img_src, args.source_lang, args.target_lang, args.print_text, args.print_boxes, args.show)
+        args.img_src, args.source_lang, args.target_lang, translator, args.print_text, args.print_boxes, args.show)
     
 def use_app(_):
     start_gui()
@@ -42,6 +51,8 @@ def parse_args():
                                   help='Specify target translation language (default: "eng")')
     translate_parser.add_argument('--show', dest='show', action='store_true',
                                   help='Show the final translated image')
+    translate_parser.add_argument('--translator', dest='translator', type=str, choices=['google', 'deepl'], default='google',
+                                  help='Choose the translation service (default: "google")')
     translate_parser.set_defaults(func=process_translate)
 
     gui_parser = subparsers.add_parser('gui', help="Start the GUI for window capture and translation")

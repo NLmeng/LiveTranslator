@@ -8,11 +8,13 @@ pytesseract = "*"
 pillow = "*"
 opencv-python = "*"
 googletrans = "==3.1.0a0"
+numpy = "<2.0.0"
 pyttsx3 = "*"
 pyobjc-framework-quartz = "*"
 pygetwindow = "*"
 pyautogui = "*"
 pyobjc = "*"
+deep-translator = "*"
 
 [dev-packages]
 
