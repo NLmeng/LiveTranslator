@@ -15,5 +15,3 @@ pygetwindow = "*"
 pyautogui = "*"
 pyobjc = "*"
 deep-translator = "*"
-
-[dev-packages]

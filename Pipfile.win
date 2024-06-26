@@ -13,5 +13,3 @@ pyttsx3 = "*"
 pygetwindow = "*"
 pyautogui = "*"
 deep-translator = "*"
-
-[dev-packages]
