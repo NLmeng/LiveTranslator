@@ -9,3 +9,5 @@ src/onenote/
 .vscode
 **.jpg
 .DS_Store
+Pipfile
+Pipfile.lock
