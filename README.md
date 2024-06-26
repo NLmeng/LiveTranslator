@@ -1,6 +1,6 @@
 # LiveTranslator
 
-LiveTranslator translates text from images using OCR and overlays the translated text directly on the images.
+LiveTranslator finds and translates texts from images within the region or window using OCR and overlays the translated texts.
 
 ### Getting Started
 
@@ -8,21 +8,49 @@ LiveTranslator translates text from images using OCR and overlays the translated
 
 - Python, Pip, Pipenv
 
-#### Environments
+### Setup Instructions
 
-- Install Dependencies: `python setup_env.py pipenv install`
-- Use virtual environment: `pipenv shell`
-- Exit/Deactivate: `exit`
+1. **Clone the repository**:
 
-#### Start
+   ```sh
+   git clone <repository-url>
+   cd LiveTranslator
+   ```
+
+2. **Run the environment setup script**:
+
+   ```sh
+   python setup_env.py
+   ```
+
+3. **Install the dependencies**:
+
+   ```sh
+   pipenv install
+   ```
+
+4. **Use the virtual environment**:
+
+   ```sh
+   pipenv shell
+   ```
+
+5. **Exit/Deactivate the virtual environment**:
+   ```sh
+   exit
+   ```
+
+### Usage
+
+#### Translate Text from Images
 
 Use the following command to translate text from images:
 
-```bash
+```sh
 python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --from <lang> --to <lang> --translator <translator>
 ```
 
-#### CLI Options Explanation
+##### CLI Options Explanation
 
 - `--src` (Required): Specify the path to the image file to be translated.
 - `--print` (Optional): Print extracted texts to the console.
@@ -32,9 +60,11 @@ python3 scripts/main.py translate --src <path_to_image> --print --print-boxes --
 - `--show` (Optional): Show the final translated image.
 - `--translator` (Optional): Choose the translation service (default is "google"). Options: `google`, `deepl`.
 
+#### Run the GUI
+
 Use the following command to run the application's GUI:
 
-```bash
+```sh
 python3 scripts/main.py gui
 ```
 
@@ -76,15 +106,15 @@ The LiveTranslator GUI allows users to capture and translate text from specific 
 8. **Status Display**:
    - A status label displays the current state of the capture process, with tooltips for additional information.
 
-### Test
+### Testing
 
 Use the following command to run tests:
 
-```bash
+```sh
 python3 tests/run_tests.py <modules>
 ```
 
-#### CLI Options Explanation
+##### CLI Options Explanation
 
 - `modules` (Optional): Paths to specific test modules or classes. **Leaving empty will run all tests**
 - `-v, --verbosity` (Optional): Verbosity level for test output.
@@ -95,20 +125,27 @@ python3 tests/run_tests.py <modules>
 - `--failfast` (Optional): Stop running tests on the first failure.
 - `--buffer` (Optional): Buffer stdout and stderr during test execution.
 
-### Troubleshoot
+### Troubleshooting
 
-- `pipenv --rm` + `pipenv --python 3.9` + reinstall dependencies
+- If you encounter issues, you can remove the virtual environment and reinstall dependencies:
+  ```sh
+  pipenv --rm
+  pipenv --python 3.9
+  pipenv install
+  ```
 
 ### Example Usage
 
 To translate text from an image using the Google Translator, run:
 
-```bash
+```sh
 python3 scripts/main.py translate --src path/to/your/image.png --print --print-boxes --from eng --to jpn --translator google --show
 ```
 
-## To run the application
+### Running the Application
 
-```bash
+To run the application GUI, use:
+
+```sh
 python3 scripts/main.py gui
 ```
