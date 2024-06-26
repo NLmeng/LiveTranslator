@@ -4,9 +4,13 @@ LiveTranslator translates text from images using OCR and overlays the translated
 
 ### Getting Started
 
+#### Requirements
+
+- Python, Pip, Pipenv
+
 #### Environments
 
-- Install Dependencies: `pipenv install`
+- Install Dependencies: `python setup_env.py pipenv install`
 - Use virtual environment: `pipenv shell`
 - Exit/Deactivate: `exit`
 
